@@ -1,5 +1,8 @@
 {
   "mongo": {
     "url": "mongodb://127.0.0.1:27017/issue_tracker"
+  },
+  "session": {
+    "secret": "BYOOv8Eh7rEiwRyyUWKsoNov6OVbRnZZ"
   }
 }

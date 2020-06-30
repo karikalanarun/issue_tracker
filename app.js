@@ -9,6 +9,10 @@ const issueRouter = require("./issues/issue.route")
 const issuesRouter = require("./issues/issues.route")
 const mongoose = require('mongoose');
 const config = require("config");
+const jwt = require('express-jwt')({
+  algorithms: ["HS256"],
+  secret: config.get("session.secret")
+});
 
 mongoose.connect(config.get("mongo.url"), { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -25,8 +29,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRouter);
-app.use('/issue', issueRouter)
-app.use('/issues', issuesRouter)
+app.use('/issue', jwt, issueRouter)
+app.use('/issues', jwt, issuesRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -39,6 +43,10 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  if (err.status === 401) {
+    res.status(401).json(err);
+    return
+  }
   // render the error page
   res.status(err.status || 500);
   res.render('error');
