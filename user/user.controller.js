@@ -1,9 +1,5 @@
 const User = require("./user.model");
-const { UnsupportedMediaType, InternalServerError } = require("http-errors");
-
-const internalErr = (res) => {
-    res.send({ code: "InternalErr", message: "Something Went Wrong" })
-}
+const { internalErr } = require("../utils")
 
 const signUpUser = async ({ body: user }, res) => {
     try {
@@ -11,6 +7,7 @@ const signUpUser = async ({ body: user }, res) => {
         await usr.save()
         res.send({ created: usr.id })
     } catch (error) {
+        console.log("err ::: ", error)
         internalErr(res)
     }
 
