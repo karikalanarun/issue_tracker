@@ -8,6 +8,7 @@ const comment = new mongoose.Schema({
 const IssueSchema = new mongoose.Schema({
     title: String,
     description: String,
+    status: { type: String, enum: ['todo', 'progress', 'done'] },
     reporter: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
     assigned_to: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
     comments: [comment],

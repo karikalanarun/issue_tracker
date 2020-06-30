@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 const userRouter = require("./user/user.route")
 const issueRouter = require("./issues/issue.route")
+const issuesRouter = require("./issues/issues.route")
 const mongoose = require('mongoose');
 const config = require("config");
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRouter);
 app.use('/issue', issueRouter)
+app.use('/issues', issuesRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
