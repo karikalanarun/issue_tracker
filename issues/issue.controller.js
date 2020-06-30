@@ -46,8 +46,9 @@ const addComment = async ({ params: { issue_id }, body: { body, created_by } }, 
 
 const addWatcher = async ({ params: { issue_id }, body: { watcher } }, res) => {
     try {
-        await Issue.updateOne({ _id: issue_id }, { $push: { watchers: watcher } })
-        await User.updateOne({ _id: watcher }, { $push: { watching_issues: issue_id } })
+        const session = await Issue.startSession();
+        await Issue.updateOne({ _id: issue_id }, { $push: { watchers: watcher } }).session(session)
+        await User.updateOne({ _id: watcher }, { $push: { watching_issues: issue_id } }).session(session)
         res.send(makeResponse({ udpated: issue_id }))
     } catch (error) {
         console.log("errr ::: ", error)
@@ -57,8 +58,9 @@ const addWatcher = async ({ params: { issue_id }, body: { watcher } }, res) => {
 
 const removeWatcher = async ({ params: { issue_id }, body: { watcher } }, res) => {
     try {
-        await Issue.updateOne({ _id: issue_id }, { $pull: { watchers: watcher } })
-        await User.updateOne({ _id: watcher }, { $pull: { watching_issues: issue_id } })
+        const session = await Issue.startSession();
+        await Issue.updateOne({ _id: issue_id }, { $pull: { watchers: watcher } }).session(session)
+        await User.updateOne({ _id: watcher }, { $pull: { watching_issues: issue_id } }).session(session)
         res.send(makeResponse({ udpated: issue_id }))
     } catch (error) {
         console.log("errr ::: ", error)
