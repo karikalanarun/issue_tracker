@@ -1,6 +1,7 @@
 const { internalErr, makeResponse } = require("../utils")
 const Issue = require("./issue.model");
 const issue = require("./issue.route");
+const User = require("../user/user.model");
 
 const create = async ({ body: { title, description, assigned_to, reporter } }, res) => {
     try {
@@ -43,4 +44,26 @@ const addComment = async ({ params: { issue_id }, body: { body, created_by } }, 
     }
 }
 
-module.exports = { create, update, remove, addComment }
+const addWatcher = async ({ params: { issue_id }, body: { watcher } }, res) => {
+    try {
+        await Issue.updateOne({ _id: issue_id }, { $push: { watchers: watcher } })
+        await User.updateOne({ _id: watcher }, { $push: { watching_issues: issue_id } })
+        res.send(makeResponse({ udpated: issue_id }))
+    } catch (error) {
+        console.log("errr ::: ", error)
+        internalErr(res)
+    }
+}
+
+const removeWatcher = async ({ params: { issue_id }, body: { watcher } }, res) => {
+    try {
+        await Issue.updateOne({ _id: issue_id }, { $pull: { watchers: watcher } })
+        await User.updateOne({ _id: watcher }, { $pull: { watching_issues: issue_id } })
+        res.send(makeResponse({ udpated: issue_id }))
+    } catch (error) {
+        console.log("errr ::: ", error)
+        internalErr(res)
+    }
+}
+
+module.exports = { create, update, remove, addComment, addWatcher, removeWatcher }
