@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const comment = new mongoose.Schema({
     body: String,
-    createdBy: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' }
+    created_by: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' }
 }, { timestamps: true })
 
 const IssueSchema = new mongoose.Schema({

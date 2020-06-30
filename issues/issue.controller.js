@@ -33,4 +33,14 @@ const remove = async ({ params: { issue_id } }, res) => {
     }
 }
 
-module.exports = { create, update, remove }
+const addComment = async ({ params: { issue_id }, body: { body, created_by } }, res) => {
+    try {
+        await Issue.updateOne({ _id: issue_id }, { $push: { comments: { body, created_by } } })
+        res.send(makeResponse({ udpated: issue_id }))
+    } catch (error) {
+        console.log("errr ::: ", error)
+        internalErr(res)
+    }
+}
+
+module.exports = { create, update, remove, addComment }
