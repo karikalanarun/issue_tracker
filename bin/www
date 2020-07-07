@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+const issuesIO = require("../issues.io")
 var debug = require('debug')('issue-tracker:server');
 var http = require('http');
 
@@ -20,6 +21,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+issuesIO(server)
 
 /**
  * Listen on provided port, on all network interfaces.
