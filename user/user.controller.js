@@ -5,6 +5,11 @@ const config = require("config")
 
 const secret = config.get("session.secret")
 
+/**
+ * @function signUpUser
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 const signUpUser = async ({ body: user }, res) => {
     try {
         const usr = new User(user);
@@ -23,10 +28,19 @@ const signUpUser = async ({ body: user }, res) => {
 
 }
 
+/**
+ * unAuthorized
+ * @param {Object} res 
+ */
 const unAuthorized = (res) => {
     res.status(401).json(makeResponse("You are not authorized", 401, "invalidAuth"))
 }
 
+/**
+ * login
+ * @param {Object} req
+ * @param {Object} res 
+ */
 const login = async ({ body: { email, password } }, res) => {
     try {
         const user = await User.findOne({ email: email })

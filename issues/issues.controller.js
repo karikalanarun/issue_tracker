@@ -1,7 +1,11 @@
 const Issue = require("./issue.model")
 const { makeResponse, internalErr } = require("../utils")
 
-
+/**
+ * getAllIssues
+ * @param {Object} req 
+ * @param {Object} res 
+ */
 const getAllIssues = async (req, res) => {
     try {
         const allIssues = await Issue.find()
