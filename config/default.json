@@ -4,5 +4,12 @@
   },
   "session": {
     "secret": "BYOOv8Eh7rEiwRyyUWKsoNov6OVbRnZZ"
+  },
+  "oauth": {
+    "google": {
+      "client_id": "897119315532-ro9ffsacu55rpnsclvsj7ibgv8ivs5tg.apps.googleusercontent.com",
+      "client_secret": "gfWONRNtaqnnelGXDBMJgb3S",
+      "redirect_uri": "http://localhost:4000/user/googleOauthCallback"
+    }
   }
 }
